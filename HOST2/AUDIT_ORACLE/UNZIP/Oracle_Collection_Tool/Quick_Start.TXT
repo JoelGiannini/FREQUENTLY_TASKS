@@ -1,0 +1,126 @@
+*****************************************************************************
+Collection Tool - Quick Start Guide
+*****************************************************************************
+
+The Collection Tool will search file systems looking for files or content specific to the Oracle products being measured.
+This information will be gathered together and placed into files in a given output directory.
+The output files should be returned to your assigned Oracle consultant.
+
+Requirements Summary and Documentation: Please see included Collection_Tool_User's_Instructions_(version).pdf for full requirements.
+
+
+*****************************************
+UNIX/Linux
+*****************************************
+
+    a. Starting the program on a UNIX or Linux system
+
+        1.  Copy the Collection_Tool.zip file to the target system, in the selected location.
+
+        2.  Open a Terminal window.
+
+        3.  Log into the target system as root.  ***If you log on as another user the search may not pick up all of the necessary Oracle Software Files.***
+
+        4.  Go to the directory where you placed the Collection_Tool.zip file and extract the files.
+            $unzip Collection_Tool.zip.
+
+        5.  Go to the Collection_Tool directory.
+            $ cd Collection_Tool/Collection
+
+        6.  It is mandatory to add read, write, and execute permission to for all the files and folders
+            $ chmod -R 777 *
+
+        7.  Go to the bin directory and type 'Collection.sh' with the proper options to run.  If no options are specified, the script will prompt the user for product(s) to search for.  Default values are used for all other options.
+            $ cd bin
+            $ ./Collection.sh <OPTIONS>  ***See below for common examples***
+
+                Product(s) to be searched       Command(s) and Option(s) to use
+                All products                    $ ./Collection.sh -d / -p all
+                DB                              $ ./Collection.sh -d / -p DB
+                EBS                             $ ./Collection.sh -d / -p EBS
+                OAS                             $ ./Collection.sh -d / -p OAS
+                WLS                             $ ./Collection.sh -d / -p WLS
+                SOA                             $ ./Collection.sh -d / -p SOA
+                OBI                             $ ./Collection.sh -d / -p OBI
+                Webcenter                       $ ./Collection.sh -d / -p Webcenter
+                Multiple Products               $ ./Collection.sh -d "/opt/software, /home/software" -p WLS,SOA,OAS
+                FMW                             $ ./Collection.sh -d / -p FMW
+
+                Note: the syntax of all available command line options is as follows
+                    [-d search_dir] [-fsall true | false] [-o full_path_dir_name] [-follow true|false] [-debug true|false] [-m all|ip|user] [-L Y|y] [-p product] [-fastsearch] [-r remote_user@remote_machine|remotefilelist] [-tns]
+
+                Refer to Table 9 in the Collection_Tool_User's_Instructions_(version).pdf documentation for instructions on the options available for you to use. Refer to Table 10 in the same document for specific examples.
+
+        8.  Determining if the script is still running.
+            The Collection Tool searches for several possible configuration, registry, and log files on the target file system. To verify that the Collection Tool is running, you will see a spinning “\” .  In addition you can use the following UNIX commands:
+
+            $ ps -ef | grep find
+            $ tail -f /<output_dir>/CTfiles.*
+                While the script is running you will see active updating of the CTfiles.* file
+
+        9.  After the tool has finished running, an output directory and a .tar (.tar.bz2 or .tar.Z) file that contains Oracle Software related files will be created.  This output directory can be found in the directory where the main Collection.sh script is run.  For example, /tmp/CT/Collection/bin/output
+
+        10. Return the output file 'Collection-<HOST_NAME>.tar' (.tar.bz2 or .tar.Z), to your assigned consultant per the instructions that were provided to you.
+
+        11. Partitioned Servers - Processor Queries Scripts
+            If server partitioning is in use, in addition to running the Collection Tool from within the partition on which the Oracle software is deployed, the Collection Tool needs to be run on the operating system of the underlying server hardware to collect the relevant CPU information. If using an embedded hypervisor, such as VMware, please consult with your assigned consultant for instructions.
+
+            example of running the Processor Queries only.
+            $ ./Collection.sh -p CPUQ
+
+
+*****************************************
+Windows
+*****************************************
+
+        1.  Copy the Collection_Tool.zip file to the target system.
+
+        2.  Log into the target Windows system as Administrator.  ***If you log on as another user the search may not pick up all of the necessary Oracle Software Files.***
+
+        3.  Unzip the Collection_Tool.zip file to the same directory that the file is located.
+
+        4.  Open a command prompt window.
+            Go to Windows 'Start' > 'Run' menu and type 'cmd'
+
+        5.  Go to the Collection_Tool bin folder.
+            c:\> cd Collection_Tool\Collection\bin
+
+        6.  Type 'Collection.cmd' with the proper options to run.  If no options are specified, the script will prompt the user for product(s) to search for.  Default values are used for all other options.
+            c:\>Collection.cmd <OPTIONS>  ***See below for common examples***
+
+                Product(s) to be searched       Command(s) and Option(s) to use
+                All Products                    c:\> Collection.cmd -p all -d c:\,d:\
+                DB                              c:\> Collection.cmd -p DB -d c:\,d:\
+                EBS                             c:\> Collection.cmd -p EBS -d c:\,d:\
+                OAS                             c:\> Collection.cmd -p OAS -d c:\,d:\
+                WLS                             c:\> Collection.cmd -p WLS -d c:\,d:\
+                SOA                             c:\> Collection.cmd -p SOA -d c:\,d:\
+                OBI                             c:\> Collection.cmd -p OBI -d c:\,d:\
+                Webcenter                       c:\> Collection.cmd -p Webcenter -d c:\,d:\
+                Multiple Products               c:\> Collection.cmd -p WLS,SOA,OAS -d c:\,d:\
+                FMW                             c:\> Collection.cmd -p FMW -d c:\,d:\
+
+                Note: the syntax of all available command line options is as follows.
+                    [-d search_dir] [-p product] [-o full_path_dir_name] [-debug true|false] [-m all|ip|user] [-L Y|y][-fastsearch] [-tns]
+
+                Refer to Table 11 in the Collection_Tool_User's_Instructions_(version).pdf documentation for instructions on the options available for you to use. Refer to Table 12 in the same document for specific examples.
+
+        7.  Determining if the script is still running.
+            The Collection Tool searches for several possible configuration, registry and log files on the target file system. To verify that Collection Tool is running, you can use the Windows Task Manager and look in the Applications tab for the cmd window with the Collection Tool.
+
+        8.  After the tool has finished running the data collection, an output folder and a .zip file that contains Oracle Software related files will be created.  This output directory can be found in the directory where the main Collection.sh script is run.  For example, c:\CT\Collection\bin\output
+
+        9.  Return the output file 'Collection-<HOST_NAME>.zip', to your assigned consultant per the instructions that were provided to you.
+
+        10. Partitioned Servers - Processor Queries Scripts
+            If server partitioning is in use, in addition to running the Collection Tool from within the partition on which the Oracle software is deployed, the Collection Tool needs to be run on the operating system of the underlying server hardware to collect the relevant CPU information. If using an embedded hypervisor, such as VMware, please consult with your assigned consultant for instructions.
+
+            example of running the Processor Queries only.
+            c:\> Collection.cmd -p CPUQ
+
+
+*****************************************************
+Troubleshooting Information
+*****************************************************
+
+Information about troubleshooting the running of the script has been placed in the Collection_Tool_User's_Instructions_(version).pdf document.  Please refer to section 3 & 4 of that document if there are any problems encountered.  If you have further questions, please contact your Oracle assigned consultant.

@@ -1,0 +1,5 @@
+ORACLEPRODUCT=Database
+
+INCLUDEPRODUCT=CPUQ/CPUQ.txt
+
+RUNCMD=../resources/util/DB/db_main|SCRIPT
