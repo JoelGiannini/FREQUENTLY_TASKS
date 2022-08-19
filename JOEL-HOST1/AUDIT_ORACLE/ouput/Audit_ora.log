@@ -1,187 +1,0 @@
-Mon Apr 18 18:42:29 -03 2022
-Eliminacion del directorio /Auditoria
-Directorio eliminado
-Creacion del directorio eliminado
-Directorio creado
-Transpaso de Oracle_Collection_Tool-19.1.tar a /Auditoria
-Archivo Oracle_Collection_Tool-19.1.zip copiado correctamente
-Descompresion del archivo Oracle_Collection_Tool-19.1.zip en el directorio /Auditoria
-Descomprecion terminada
-Cambio de permisos al directorio /Auditoria
-Cambio de permisos realizado
-Va a empezar la ejecucion del script
-/bin/mkdir: cannot create directory `/Auditoria': File exists
-
-Retrieving Oracle Product list....
-
-Setting up lists for Collection Tool....
-
-Testing script availability and executability
-
-Executing /Auditoria/Oracle_Collection_Tool/Collection/resources/util/CPUQ/cpuq_main.sh
-
-
-Running file search ...
-/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|
-CT file search started at 04/18/2022 18:47 ART and finished at 04/18/2022 18:50 ART.
-
-Testing script availability and executability
-
-
-Testing script availability and executability
-
-Executing /Auditoria/Oracle_Collection_Tool/Collection/resources/util/DB/db_main.sh
-
-cp: cannot stat `temp*.sql': No such file or directory
-
-Testing script availability and executability
-
-Executing /Auditoria/Oracle_Collection_Tool/Collection/resources/util/OAS/run_opmnctl_status.sh
-
-Starting run_opmnctl_status.sh script
-
-Testing script availability and executability
-
-
-Testing script availability and executability
-
-Executing /Auditoria/Oracle_Collection_Tool/Collection/resources/util/WLST/WLSBasic/wls-basic-measurement.sh
-
-
-Testing script availability and executability
-
-Executing /Auditoria/Oracle_Collection_Tool/Collection/resources/util/WLST/WLSNUP/getWLS_NUP.sh
-
-
-Sorting found file list....
-
-Preparing Oracle files in file list for collection....
-
-Starting copy of files to the collection archive....
-/-\|/-\|/-\|/-\|/-\|
-Testing script availability and executability
-
-Executing /Auditoria/Oracle_Collection_Tool/Collection/resources/util/common/bin/rmdata.sh
-
-CT: CT-00040: WARNING: Please note that for debugging purposes the following archive file was created in the output folder: /Auditoria/Oracle_Collection_Tool/Collection/bin/output/debug_Collection-at3jfep101_all.tar.bz2
-
-Finished copying of files to the collection archive.
-
-Successfully compressed the results file /Auditoria/Oracle_Collection_Tool/Collection/bin/output/Collection-at3jfep101_all.tar.
-[H[2J
-Collection process is completed, please forward /Auditoria/Oracle_Collection_Tool/Collection/bin/output/Collection-at3jfep101_all.tar.bz2 to your assigned consultant.
-
-## CT ## Collected
-CPUQ: CT-01000: COLLECTED: Machine Name: at3jfep101
-
-## CT ## Warnings
-CPUQ: CT-01104: WARNING: VMWare virtual machine
-CT: CT-00040: WARNING: Please note that for debugging purposes the following archive file was created in the output folder: /Auditoria/Oracle_Collection_Tool/Collection/bin/output/debug_Collection-at3jfep101_all.tar.bz2
-DB: CT-02808: WARNING: There are no DB instances running on this machine
-
-termino la ejecucion del script
-Compresion del Archivo del resultado de la ejecucion de script
-Oracle_Collection_Tool/
-Oracle_Collection_Tool/Collection/
-Oracle_Collection_Tool/Collection/bin/
-Oracle_Collection_Tool/Collection/bin/Collection.sh
-Oracle_Collection_Tool/Collection/bin/maskdata.pl
-Oracle_Collection_Tool/Collection/bin/Collection.cmd
-Oracle_Collection_Tool/Collection/bin/Collection_main.js
-Oracle_Collection_Tool/Collection/bin/output/
-Oracle_Collection_Tool/Collection/bin/output/Collection-at3jfep101_all.tar.bz2
-Oracle_Collection_Tool/Collection/bin/output/debug_Collection-at3jfep101_all.tar.bz2
-Oracle_Collection_Tool/Collection/resources/
-Oracle_Collection_Tool/Collection/resources/products/
-Oracle_Collection_Tool/Collection/resources/products/DB/
-Oracle_Collection_Tool/Collection/resources/products/DB/DB.txt
-Oracle_Collection_Tool/Collection/resources/products/WLSBasic/
-Oracle_Collection_Tool/Collection/resources/products/WLSBasic/WLSBasic.txt
-Oracle_Collection_Tool/Collection/resources/products/CPUQ/
-Oracle_Collection_Tool/Collection/resources/products/CPUQ/CPUQ.txt
-Oracle_Collection_Tool/Collection/resources/products/EBS/
-Oracle_Collection_Tool/Collection/resources/products/EBS/EBS.txt
-Oracle_Collection_Tool/Collection/resources/products/WLS/
-Oracle_Collection_Tool/Collection/resources/products/WLS/WLSOracle.txt
-Oracle_Collection_Tool/Collection/resources/products/WLS/WLSBEA.txt
-Oracle_Collection_Tool/Collection/resources/products/WLSNUP/
-Oracle_Collection_Tool/Collection/resources/products/WLSNUP/WLSNUP.txt
-Oracle_Collection_Tool/Collection/resources/products/Webcenter/
-Oracle_Collection_Tool/Collection/resources/products/Webcenter/WebCenter.txt
-Oracle_Collection_Tool/Collection/resources/products/FMWRUL/
-Oracle_Collection_Tool/Collection/resources/products/FMWRUL/FMWRUL.txt
-Oracle_Collection_Tool/Collection/resources/products/OBI/
-Oracle_Collection_Tool/Collection/resources/products/OBI/OBIEE_11g.txt
-Oracle_Collection_Tool/Collection/resources/products/OAS/
-Oracle_Collection_Tool/Collection/resources/products/OAS/OAS10g.txt
-Oracle_Collection_Tool/Collection/resources/products/FMW/
-Oracle_Collection_Tool/Collection/resources/products/FMW/FMW.txt
-Oracle_Collection_Tool/Collection/resources/products/SOA/
-Oracle_Collection_Tool/Collection/resources/products/SOA/SOABEA.txt
-Oracle_Collection_Tool/Collection/resources/products/SOA/SOA10g.txt
-Oracle_Collection_Tool/Collection/resources/products/SOA/SOA11g.txt
-Oracle_Collection_Tool/Collection/resources/products/Tuxedo/
-Oracle_Collection_Tool/Collection/resources/products/Tuxedo/TUXEDO_12c.txt
-Oracle_Collection_Tool/Collection/resources/products/FormsReports/
-Oracle_Collection_Tool/Collection/resources/products/FormsReports/FormsReports11g.txt
-Oracle_Collection_Tool/Collection/resources/util/
-Oracle_Collection_Tool/Collection/resources/util/common/
-Oracle_Collection_Tool/Collection/resources/util/common/bin/
-Oracle_Collection_Tool/Collection/resources/util/common/bin/rmdata.sh
-Oracle_Collection_Tool/Collection/resources/util/common/bin/recog.sh
-Oracle_Collection_Tool/Collection/resources/util/common/bin/rmdata_win.txt
-Oracle_Collection_Tool/Collection/resources/util/common/bin/rmdata.sed
-Oracle_Collection_Tool/Collection/resources/util/DB/
-Oracle_Collection_Tool/Collection/resources/util/DB/logcolstat.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/csv_read_next_row.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/check_privs.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/DBAFUSExtract.sql
-Oracle_Collection_Tool/Collection/resources/util/DB/db_conn_coll.sql
-Oracle_Collection_Tool/Collection/resources/util/DB/EBSCollection19.1.sql
-Oracle_Collection_Tool/Collection/resources/util/DB/look_for_running_sids.cmd
-Oracle_Collection_Tool/Collection/resources/util/DB/db_conn_coll.cmd
-Oracle_Collection_Tool/Collection/resources/util/DB/db_conn_coll.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/helper_functions.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/ReviewLite19.1.sql
-Oracle_Collection_Tool/Collection/resources/util/DB/ReviewLite.sql
-Oracle_Collection_Tool/Collection/resources/util/DB/db_main.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/look_for_running_sids.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/db_main.cmd
-Oracle_Collection_Tool/Collection/resources/util/DB/csv_append_row.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/local_conn.sh
-Oracle_Collection_Tool/Collection/resources/util/DB/logcolstat.cmd
-Oracle_Collection_Tool/Collection/resources/util/DB/EBSCollection.sql
-Oracle_Collection_Tool/Collection/resources/util/DB/db_conn_coll_main.sql
-Oracle_Collection_Tool/Collection/resources/util/license_agreement.txt
-Oracle_Collection_Tool/Collection/resources/util/CPUQ/
-Oracle_Collection_Tool/Collection/resources/util/CPUQ/cpuq_main.cmd
-Oracle_Collection_Tool/Collection/resources/util/CPUQ/cpuq_main.sh
-Oracle_Collection_Tool/Collection/resources/util/CPUQ/ct_cpuq.sh
-Oracle_Collection_Tool/Collection/resources/util/CPUQ/ct_cpuq.cmd
-Oracle_Collection_Tool/Collection/resources/util/EBS/
-Oracle_Collection_Tool/Collection/resources/util/file_sort_list_unix.txt
-Oracle_Collection_Tool/Collection/resources/util/WLST/
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSBasic/
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSBasic/wls-basic-measurement.py
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSBasic/wls-basic-measurement.cmd
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSBasic/wls-basic-measurement.sh
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSBasic/compare_result.txt
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSNUP/
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSNUP/getWLS_NUP.sh
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSNUP/getWLS_NUP.py
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSNUP/getWLS_NUP.cmd
-Oracle_Collection_Tool/Collection/resources/util/WLST/WLSNUP/compare_result.txt
-Oracle_Collection_Tool/Collection/resources/util/OBI/
-Oracle_Collection_Tool/Collection/resources/util/OAS/
-Oracle_Collection_Tool/Collection/resources/util/OAS/run_opmnctl_status.sh
-Oracle_Collection_Tool/Collection/resources/util/OAS/run_opmnctl_status.cmd
-Oracle_Collection_Tool/Collection/resources/util/OAS/oid_users_count.sql
-Oracle_Collection_Tool/Collection/resources/util/Tuxedo/
-Oracle_Collection_Tool/Collection/resources/util/Tuxedo/countclients.sh
-Oracle_Collection_Tool/Collection/resources/util/Tuxedo/countclients.cmd
-Oracle_Collection_Tool/Collection/resources/util/file_sort_list_win.txt
-Oracle_Collection_Tool/Quick_Start.TXT
-Oracle_Collection_Tool-19.1.tar
-Transpaso del at3jfep101.tar a bastion
-Transpaso terminado
-Trabajo terminado en el servidor at3jfep101 terminado
