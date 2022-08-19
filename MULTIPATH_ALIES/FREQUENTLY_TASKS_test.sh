@@ -1,0 +1,1939 @@
+
+#######################################
+#     Desarrollador: Joel Giannini    #
+#     Configurar alias en multipath   #
+#     Parametros: Alias y lun_id      #
+#######################################
+#Declaracion de variables
+h=`date "+%H" `
+m=`date "+%M" `
+s=`date "+%S" `
+dia=`date "+%d" `
+mes=`date "+%m" `
+anio=`date "+%Y" ` 
+SSH="sudo /usr/bin/ssh -q -i /home/ibmunx/.ssh/private_key -o StrictHostKeyChecking=no -tt -o BatchMode=yes -o ConnectTimeout=5"
+SCP="sudo /usr/bin/scp -q -i /home/ibmunx/.ssh/private_key -o StrictHostKeyChecking=no"
+V_red='\e[0;31m'
+V_orange='\e[1;31m'
+V_white='\e[1;37m'
+V_yellow='\e[1;33m'
+V_blue='\e[0;34m'
+V_cyan='\e[0;36m'
+V_green='\e[0;32m'
+NC='\e[0m' # No Color 
+
+##############
+#Funcion menu#
+##############
+menu(){
+while :
+do
+clear
+#ACA VA EL MENU#
+
+echo -e "${V_orange}⠀⠀⠀⠀⣤⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤${NC}"⠀⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿${NC}"⠀⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⣿⡇⠀⣠⣶⠖⢲⣶⠀⠀⠀⣰⣶⢰⣶⣶⠾⢿⣶⡄⠀⣠⣶⡿⠷⣦⣿⡇⢰⣶⣶⠾⠷⣶⣆⠀⠀⠀⣶⡶⢸⣿${NC}"⠀⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⣿⣧⣾⡟⠁⠀⠈⣿⣇⠀⢠⣿⠇⢸⣿⠃⠀⠀⣿⣿⢰⣿⡇⠀⠀⠈⣿⡇⢸⣿⡇⠀⠀⠸⣿⡄⠀⢰⣿⠃⢸⣿${NC}"⠀⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⣿⡇⠈⢿⣧⡀⠀⠸⣿⡀⣾⡟⠀⢸⣿⠀⠀⠀⣿⣿⠘⣿⣇⠀⠀⢀⣿⡇⢸⣿⡇⠀⠀⠀⢻⣷⢀⣿⡏⠀⢸⣿${NC}"⠀⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⠿⠇⠀⠀⠻⠿⠄⠀⠻⢷⣿⠁⠀⠸⠿⠀⠀⠀⠿⠿⠀⠙⠿⢷⠾⠟⠿⠇⠸⠿⠃⠀⠀⠀⠈⠿⣿⡿⠀⠀⠸⠿${NC}"⠀⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠃⠀⠀⠀⠀${NC}"⠀⠀⠀
+echo -e "${V_orange}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠋⠀⠀⠀⠀⠀${NC}"⠀
+echo -e "${V_white}                            By Joel Giannini.  ${NC}"
+
+echo ""
+echo "--------------------------------------------------"
+echo " * * * * * * * * * opciónes * * * * * * * * * * "
+echo "--------------------------------------------------"
+echo ""
+echo -e "[${V_yellow}1${NC}] Crear archivo de configuración de red"
+echo -e "[${V_yellow}2${NC}] Sacar reporte ADU Report"
+echo -e "[${V_yellow}3${NC}] Verificar File systems"
+echo -e "[${V_yellow}4${NC}] Inventario"
+echo -e "[${V_yellow}5${NC}] Ejecutar reporte de auditoria de Oracle"
+echo -e "[${V_yellow}6${NC}] Generar caso de Hardware"
+echo -e "[${V_yellow}7${NC}] Configurar multipath alies"
+echo -e "[${V_yellow}8${NC}] Salir"
+echo ""
+echo "--------------------------------------------------"
+echo ""
+echo -e "Elegi una opción [[${V_yellow}1${NC}-[${V_yellow}8${NC}]:"
+read yourch
+while [ $yourch -lt 1 ] || [ $yourch -gt 8 ]
+do
+echo "opción erronea, ingresar numero de opción entre  [1-8]:"
+read yourch
+done
+
+case $yourch in
+1) F_conf_red ;;
+2) F_adu_report ;;
+3) F_fs_verif ;;
+4) F_inventario ;;
+5) F_ora_audit_report ;;
+6) F_gen_caso ;;
+7) F_conf_multipath_alies ;;
+8) echo -e "${V_cyan}Hasta la vista baby!!!${NC}" ; echo "" ; echo "" ; exit 0 ;;
+esac
+done
+}
+
+
+########################################
+# Funcion crear archivo de conf de red #
+########################################
+F_conf_red(){
+clear
+
+echo -e "${V_yellow}1${NC}) Crear archivo de Conf de RED"
+echo -e "${V_yellow}2${NC}) Volver al menu principal"
+read aux
+
+clear
+
+while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+do
+echo "valor incorrecto ingrese la opción correcta"
+read aux
+done
+
+
+while [[  $aux == "1" ]] || [[  $aux == "2" ]]
+do
+if [ $aux -eq 1 ] ; then
+
+echo "Ingrese servidor en el cual se va a configurar la RED"
+read V_server
+clear
+echo -e "${V_cyan}Configuration de las interfaces de RED en el server $V_server${NC}"
+echo ""
+${SSH} ibmunx@$V_server "sudo /sbin/ifconfig -a |grep -v RX| grep -v TX | grep -v lo: | grep -vw inet6 | grep -v ether | grep -v loop| grep -v 127.0.0.1 | grep -v collisions |grep -v 'UP LOOPBACK'| grep -v 'UP BROADCAST' | grep -v Interrupt | grep -v 'lo        Link'"
+
+echo -e "ingresar el nombre del archivo de configuracion de Red que se va a configurar.${V_red} NO PONER EL ifcfg- solo el nombre del DEVICE ${NC}"
+read V_name_arch
+echo "ingresar DEVICE" 
+read V_dev
+echo "ingresar IP" 
+read V_ip
+echo "ingreser NETMASK" 
+read V_mask
+
+${SSH} ibmunx@$V_server "echo "DEVICE=$V_dev" | sudo tee --append /etc/sysconfig/network-scripts/ifcfg-$V_name_arch"
+${SSH} ibmunx@$V_server "echo "ONBOOT=yes" | sudo tee --append /etc/sysconfig/network-scripts/ifcfg-$V_name_arch"
+${SSH} ibmunx@$V_server "echo "USERCTL=no" | sudo tee --append /etc/sysconfig/network-scripts/ifcfg-$V_name_arch"
+${SSH} ibmunx@$V_server "echo "BOOTPROTO=none" | sudo tee --append /etc/sysconfig/network-scripts/ifcfg-$V_name_arch"
+${SSH} ibmunx@$V_server "echo "IPADDR=$V_ip" | sudo tee --append /etc/sysconfig/network-scripts/ifcfg-$V_name_arch"
+${SSH} ibmunx@$V_server "echo "NETMASK =$V_mask" | sudo tee --append /etc/sysconfig/network-scripts/ifcfg-$V_name_arch"
+
+echo "¿Desea reiniciar el servicio de RED en el server V_server?"
+echo -e "${V_yellow}1${NC}) Si"
+echo -e "${V_yellow}2${NC}) No"
+read aux
+if [ $aux -eq 1 ] ; then
+echo "NADA"
+fi
+else
+menu
+
+fi
+echo -e "${V_yellow}1${NC}) Crear otro archivo de Conf de RED"
+echo -e "${V_yellow}2${NC}) Volver al menu principal"
+read aux
+
+done
+
+}
+
+########################################
+# Funcion ADU Report                   #
+########################################
+F_adu_report(){
+clear
+
+echo "Ingrese servidor en el cual se va a correr el ADU Report"
+read V_server
+ssh_test;
+ping_test;
+clear
+if [[  $PING_TEST == "ERROR" ]];
+then
+	echo -e "${V_cyan}El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping, favor de verificar si el servidor es correcto o si el mismo tiene algun inconveniente.${NC}"
+	echo -e "${V_yellow}1${NC}) Volver al menu principal"
+	read aux
+
+	clear
+
+	while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+	do
+		echo "valor incorrecto ingrese la opción correcta"
+		read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+		menu;
+	done
+	
+fi
+
+if [[  $SSH_TEST == "ERROR" ]];
+then
+	
+OS=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $1}' `
+RELEASE=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $2}' `
+	if [ "$OS" != "Linux" ]
+ 		then
+
+			echo "Esta opcion es valida solo para servidores Red—Hat."
+			echo "El servidor que ingresaste es:"
+			echo -e "${V_cyan} $V_server $OS $RELEASE ${NC}"
+
+
+			echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+			clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+	else
+		$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/aduRE.sh $V_server >/dev/null 2>&1"
+		$SCP ibmunx@apsatellitep03:/home/ibmunx/JOEL/ADU_REPORT/REPORTES/* /home/ibmunx/JOEL/ADU_REPORT/REPORTES
+		$SSH ibmunx@apsatellitep03 "sudo rm -f /home/ibmunx/JOEL/ADU_REPORT/REPORTES/*"
+		echo "Se dejo el reporte en /home/ibmunx/JOEL/ADU_REPORT/REPORTES:"
+		echo ""
+		echo -e "${V_cyan}Archivo:${NC}"
+		sudo ls -ltr /home/ibmunx/JOEL/ADU_REPORT/REPORTES | grep $V_server;
+		echo ""
+		echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+			clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+
+	fi
+	
+fi
+
+test_os;
+
+if [ "$OS" != "Linux" ]
+ 		then
+
+			echo "Esta opcion es valida solo para servidores Red—Hat."
+			echo "El servidor que ingresaste es:"
+			echo -e "${V_cyan} $V_server $OS $RELEASE ${NC}"
+
+
+			echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+			clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+	else
+		sudo /home/ibmunx/JOEL/ADU_REPORT/adu_report.sh $V_server > /dev/null 2>&1;
+	echo "Se dejo el reporte en /home/ibmunx/JOEL/ADU_REPORT/REPORTES:"
+	echo ""
+	echo -e "${V_cyan}Archivo:${NC}"
+	sudo ls -ltr /home/ibmunx/JOEL/ADU_REPORT/REPORTES | grep $V_server;
+	echo ""			
+			echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+			clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+
+	fi
+
+
+}
+
+########################################
+# Funcion Verificar Filesystems        #
+########################################
+F_fs_verif(){
+clear
+echo -e "${V_cyan}################################################################################${NC}"
+echo -e "${V_cyan}# Verificacion de Filesystems                                                  #${NC}"
+echo -e "${V_cyan}################################################################################${NC}"
+echo ""
+echo "Ingrese servidor en el cual se va a verificar los Filesystem:"
+echo -e "${V_red}IMPORTANTE POR EL MOMENTO SOLO SE VERIFICAN SERVIDORES RED-HAT${NC}"
+read V_server
+ssh_test;
+ping_test;
+
+while [[  $PING_TEST == "ERROR" ]]
+do
+echo -e "${V_cyan}El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping, favor de verificar si el servidor es correcto o si el mismo tiene algun inconveniente.${NC}"
+echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+read aux
+
+clear
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+menu
+done
+
+done
+while [[  $SSH_TEST == "OK" ]]
+do
+clear
+
+test_os;
+if [ "$OS" != "Linux" ]
+ then
+
+	echo "Esta opcion solo verifica FS en servidores Red—Hat."
+	echo "El servidor que ingresaste es:"
+	echo -e "${V_cyan} $V_server $OS $RELEASE ${NC}"
+
+
+	echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+	read aux
+
+	clear
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+done
+while [[  $aux == "1" ]]
+do
+	menu
+done
+
+fi
+
+
+while [[  $OS == "Linux" ]]
+do
+echo -e "${V_cyan}$V_server${NC}"
+echo "File-systems:"
+${SSH} ibmunx@$V_server "sudo cat /etc/fstab | grep -v '#' | grep -vw devpts| grep -vw sysfs | grep -vw proc |grep -vw swap |sudo sed '/^ *$/d'"| awk '{print $2}' | sudo tee /tmp/fs1.txt
+
+
+for i in `sudo cat /tmp/fs1.txt`; do 
+V_df=`${SSH} ibmunx@$V_server "sudo df -k "|grep -w $i`
+if [[ `${SSH} ibmunx@$V_server "sudo df -k "|grep -w $i` == "" ]] ; then
+echo "El filesystem $i no se encuentra montado.";
+${SSH} ibmunx@$V_server "sudo mount -a"
+echo "Se monto el filesystem $i.";
+
+else
+echo "El filesystem $i se encuentra montado.";
+
+fi
+
+done
+
+if [[ `${SSH} ibmunx@$V_server "sudo cat /proc/mounts" |grep -P "\sro[\s,]"` == "" ]] ; then
+echo -e "${V_cyan}No hay Filesystems en Read-Only.${NC}";
+
+else
+echo -e "${V_red}Los siguientes filesystems estan en estado Read Only:${NC}"
+${SSH} ibmunx@$V_server "sudo cat /proc/mounts" | grep -P "\sro[\s,]"
+fi
+
+echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+read aux
+
+clear
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+menu
+done
+done
+done
+
+
+while [[  $SSH_TEST == "ERROR" ]]
+do
+clear
+echo -e "${V_cyan}No se pueden chequear los FS del servidor${NC} ${V_red}$V_server${NC}${V_cyan}, debido a que se ingresa por APSATELLITEP03${NC}"
+
+echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+read aux
+
+clear
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+menu
+done
+
+done
+
+
+}
+
+
+########################################
+# Funcion Inventario                   #
+########################################
+F_inventario(){
+clear
+
+echo -e "${V_cyan}################################################################################${NC}"
+echo -e "${V_cyan}# Inventario                                                                   #${NC}"
+echo -e "${V_cyan}################################################################################${NC}"
+echo ""
+echo -e "${V_yellow}1${NC}) Buscar servidor en el inventario."
+echo -e "${V_yellow}2${NC}) Actualizar servidor en el inventario."
+echo -e "${V_yellow}3${NC}) Dar de alta nuevo servidor en el inventario."
+echo -e "${V_yellow}4${NC}) Dar de baja servidor en el inventario."
+echo -e "${V_yellow}5${NC}) Volver al menu principal."
+
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 5 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+case $aux in
+1) F_buscar_s ;;
+2) F_update_s ;;
+3) F_add_s ;;
+4) F_delete_s;;
+5) menu ;;
+esac
+
+}
+
+##########################################
+# Funcion Agregar registro en inventario #
+##########################################
+F_add_s(){
+clear
+V_servidor=Servidor
+V_consola=Consola
+V_ip_prod=IP_Prod
+V_ubicacion=Ubicacion
+V_serial_id=Num_serie
+echo "Ingrese servidor:"
+read V_server
+
+V_serv=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` 
+V_con=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $2}'`
+V_ip=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $3}'` 
+V_ubi=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $4}'`
+V_serial=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $5}'`
+V_os="Sist_ope"
+V_re="Release"
+V_status="Status"
+STATUS="Online"
+ssh_test;
+ping_test;
+test_os;
+clear
+
+if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` != "" ]]
+then
+   	
+
+		if [[  $PING_TEST == "ERROR" ]];
+		then
+			echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+			echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} ya se encuentra en el inventario no hace falta agregarlo.${NC}"
+			STATUS="Offline"
+			OS="##########"
+			RELEASE="##########"
+		
+			sudo touch /home/ibmunx/JOEL/temp.txt
+			echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+			echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+			clear
+			echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+			echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} ya se encuentra en el inventario no hace falta agregarlo.${NC}"
+			echo -e "${V_cyan}######################################################################################################################################${NC}"
+			echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+			echo -e "${V_cyan}######################################################################################################################################${NC}"
+			sudo rm -f /home/ibmunx/JOEL/temp.txt
+			echo ""
+			echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+			echo -e "${V_yelow}2${NC}) Volver al menu principal."
+			read aux
+
+			while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+			do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+			done
+
+			while [[  $aux == "1" ]]
+			do
+			F_inventario;
+			done
+
+			while [[  $aux == "2" ]]
+			do
+			menu;
+			done 
+		
+		
+
+		fi
+
+		if [[ $SSH_TEST == "ERROR" ]];
+		then
+
+
+			OS=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $1}'|tr -d "\015"`
+			RELEASE=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $2}'|tr -d "\015"`
+	
+		if [[  $OS == "Linux" ]];
+		then
+			RELEASE=`sudo /home/ibmunx/JOEL/PRUEBA/trunc_release_linux.sh $V_server|tr -d "\015"`
+		fi
+		
+		sudo touch /home/ibmunx/JOEL/temp.txt
+		echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+		echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+		clear
+		echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} ya se encuentra en el inventario no hace falta agregarlo.${NC}"
+		echo -e "${V_cyan}######################################################################################################################################${NC}"
+		echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+		echo -e "${V_cyan}######################################################################################################################################${NC}"
+		sudo rm -f /home/ibmunx/JOEL/temp.txt
+		
+			echo ""
+			echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+			echo -e "${V_yelow}2${NC}) Volver al menu principal."
+			read aux
+
+			while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+			do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+			done
+
+			while [[  $aux == "1" ]]
+			do
+			F_inventario;
+			done
+
+			while [[  $aux == "2" ]]
+			do
+			menu;
+			done 
+
+		fi
+		
+		sudo touch /home/ibmunx/JOEL/temp.txt
+		echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+		echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+		clear
+		echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} ya se encuentra en el inventario no hace falta agregarlo.${NC}"
+		echo -e "${V_cyan}######################################################################################################################################${NC}"
+		echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+		echo -e "${V_cyan}######################################################################################################################################${NC}"
+		sudo rm -f /home/ibmunx/JOEL/temp.txt
+		
+			echo ""
+			echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+			echo -e "${V_yelow}2${NC}) Volver al menu principal."
+			read aux
+
+			while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+			do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+			done
+
+			while [[  $aux == "1" ]]
+			do
+			F_inventario;
+			done
+
+			while [[  $aux == "2" ]]
+			do
+			menu;
+			done 		
+
+fi
+
+	
+
+
+if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+	then
+	
+		if [[  $PING_TEST == "ERROR" ]];
+		then
+
+
+		echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+		echo -e "${V_yellow}1${NC}) Continuar con el alta del servidor ${V_red}$V_server${NC} en el inventario"
+		echo -e "${V_yellow}2${NC}) Volver al menu principal"
+		read aux
+
+		clear
+
+		while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+		do
+			echo "valor incorrecto ingrese la opción correcta"
+			read aux
+		done
+		
+		if [[  $aux == "1" ]]
+		then
+
+			STATUS="Offline"
+			OS="##########"
+			RELEASE="##########"
+		else 
+		menu;
+		
+		fi
+
+
+
+		fi
+	
+
+
+	echo "Ingrese la consola correspondiente al servidor $V_servi, en caso de no tener presionar ENTER"
+	read V_conso
+
+	if [ "$V_conso" == "" ];
+   	then
+    V_conso="########"
+	fi
+
+
+	echo "Ingrese IP del server $V_server:"
+	read V_ip_dir
+
+	echo "Ingrese la ubicacion fisica del servidor $V_server, en caso de ser virtual ingresar el VCENTER:"
+	read V_ubic
+
+	echo "Ingrese el serial number correspondiente al servidor $V_server, en caso de no tener presionar ENTER"
+	read V_sn
+
+	if [ "$V_sn" == "" ];
+   	then
+    V_sn="########"
+  	fi
+
+	echo "$V_server $V_conso $V_ip_dir $V_ubic $V_sn" | sudo tee --append /home/ibmunx/JOEL/PRUEBA/consolas.txt   
+	clear
+	V_serv=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` 
+	V_con=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $2}'`
+	V_ip=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $3}'` 
+	V_ubi=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $4}'`
+	V_serial=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $5}'`
+
+		echo ""
+		sudo touch /home/ibmunx/JOEL/temp.txt
+		echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+		echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+		clear
+		echo -e "${V_cyan}######################################################################################################################################${NC}"
+		echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+		echo -e "${V_cyan}######################################################################################################################################${NC}"
+		sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+
+	echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+	echo -e "${V_yelow}2${NC}) Volver al menu principal."
+	read aux
+
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+	F_inventario;
+	done
+
+	while [[  $aux == "2" ]]
+	do
+	menu;
+	done
+	
+	
+fi
+
+
+}
+
+########################################
+# Funcion baja del inventario.         #
+########################################
+F_delete_s(){
+clear
+V_servidor=Servidor
+V_consola=Consola
+V_ip_prod=IP_Prod
+V_ubicacion=Ubicacion
+V_serial_id=Num_serie
+echo "Ingrese servidor:"
+read V_server
+
+V_serv=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` 
+V_con=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $2}'`
+V_ip=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $3}'` 
+V_ubi=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $4}'`
+V_serial=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $5}'`
+V_os="Sist_ope"
+V_re="Release"
+V_status="Status"
+STATUS="Online"
+ssh_test;
+ping_test;
+test_os;
+clear
+
+if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+then
+			echo -e "El servidor ${V_red}$V_server${NC} no se encuentra en el inventario."
+			
+			echo -e "${V_yellow}1${NC}) Volver al menu principal."
+			read aux
+
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ] || [ $aux == ""]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+				if [ $aux -eq 1 ] ; then
+				menu
+				fi
+fi
+
+
+if [[  $PING_TEST == "ERROR" ]];
+	then
+	echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+	echo -e "${V_yellow}1${NC}) Continuar con la baja del servidor ${V_red}$V_server${NC} en el inventario"
+	echo -e "${V_yellow}2${NC}) Volver al menu principal"
+	read aux
+
+	clear
+
+		while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+		do
+			echo "valor incorrecto ingrese la opción correcta"
+			read aux
+		done
+		
+		if [[  $aux == "1" ]]
+		then
+
+			STATUS="Offline"
+			OS="##########"
+			RELEASE="##########"
+		else 
+		menu;
+		fi
+	
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+	echo ""
+	echo "Se va a eliminar el siguiente registro del inventario correspondiente al servidor $V_serv."
+	echo "¿Esta seguro que desea borrarlo?"
+	echo -e "${V_yelow}y${NC}/${V_yelow}n${NC}"
+	read aux
+
+	END=0
+
+	while [ "$END" -eq "0" ]
+	do
+  		if [ "$aux" == "y" -o "${aux}" == "n" ]
+   		then
+    	END=1
+   		else
+    	echo -e "Ingresaste un valor incorrecto, contestar con ${V_yelow}y${NC}/${V_yelow}n${NC}:"
+   		read aux
+		fi
+	done
+
+	if [[  $aux == "y" ]]
+	then
+	sudo sed -i "/${V_serv}/d" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+
+	echo -e "${V_cyan}Se elimino el registro correspondiente al servidor ${V_red}$V_server${NC} del inventario.${NC}"
+
+
+	echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+	echo -e "${V_yelow}2${NC}) Volver al menu principal."
+	read aux
+
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+	F_inventario;
+	done
+
+	while [[  $aux == "2" ]]
+	do
+	menu;
+	done
+	fi
+	if [[  $aux == "n" ]]
+	then
+	echo -e "${V_cyan}No se elimino ningun registro del inventario.${NC}"
+	echo ""
+	echo ""
+	echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+	echo -e "${V_yelow}2${NC}) Volver al menu principal."
+	read aux
+	
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+	F_inventario;
+	done
+
+	while [[  $aux == "2" ]]
+	do
+	menu;
+	done
+	fi	
+
+fi
+
+if [[ $SSH_TEST == "ERROR" ]];
+then
+
+
+		OS=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $1}'|tr -d "\015"`
+		RELEASE=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $2}'|tr -d "\015"`
+	
+	if [[  $OS == "Linux" ]];
+	then
+		RELEASE=`sudo /home/ibmunx/JOEL/PRUEBA/trunc_release_linux.sh $V_server|tr -d "\015"`
+	fi
+
+fi
+
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+	echo ""
+	echo "Se va a eliminar el siguiente registro del inventario correspondiente al servidor $V_serv."
+	echo "¿Esta seguro que desea borrarlo?"
+	echo -e "${V_yelow}y${NC}/${V_yelow}n${NC}"
+	read aux
+
+	END=0
+
+	while [ "$END" -eq "0" ]
+	do
+  		if [ "$aux" == "y" -o "${aux}" == "n" ]
+   		then
+    	END=1
+   		else
+    	echo -e "Ingresaste un valor incorrecto, contestar con ${V_yelow}y${NC}/${V_yelow}n${NC}:"
+   		read aux
+		fi
+	done
+
+if [[  $aux == "y" ]]
+then
+	sudo sed -i "/${V_serv}/d" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+
+	echo -e "${V_cyan}Se elimino el registro correspondiente al servidor ${V_red}$V_server${NC} del inventario.${NC}"
+
+
+	echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+	echo -e "${V_yelow}2${NC}) Volver al menu principal."
+	read aux
+
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+	F_inventario;
+	done
+
+	while [[  $aux == "2" ]]
+	do
+	menu;
+	done
+fi
+if [[  $aux == "n" ]]
+	then
+	echo -e "${V_cyan}No se elimino ningun registro del inventario.${NC}"
+	echo ""
+	echo ""
+	echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+	echo -e "${V_yelow}2${NC}) Volver al menu principal."
+	read aux
+	
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+	F_inventario;
+	done
+
+	while [[  $aux == "2" ]]
+	do
+	menu;
+	done
+fi
+
+
+}
+
+
+########################################
+# Funcion Buscar Servidor              #
+########################################
+F_buscar_s(){
+clear
+
+V_servidor=Servidor
+V_consola=Consola
+V_ip_prod=IP_Prod
+V_ubicacion=Ubicacion
+V_serial_id=Num_serie
+echo "Ingrese servidor:"
+read V_server
+
+V_serv=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` 
+V_con=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $2}'`
+V_ip=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $3}'` 
+V_ubi=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $4}'`
+V_serial=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $5}'`
+V_os="Sist_ope"
+V_re="Release"
+V_status="Status"
+STATUS="Online"
+ssh_test;
+ping_test;
+test_os;
+clear
+
+
+if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+   			then
+			echo -e "El servidor ${V_red}$V_server${NC} no se encuentra en el inventario."
+			echo -e "¿Desea agregar al servidor ${V_red}$V_server${NC} al inventario?"
+			echo -e "${V_yellow}1${NC}) Si"
+			echo -e "${V_yellow}2${NC}) No"
+			read aux
+
+		while [ $aux -lt 1 ] || [ $aux -gt 2 ] || [ $aux == ""]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+				if [ $aux -eq 1 ] ; then
+				F_add_s;	
+				else
+				menu
+				fi
+fi
+
+	if [[  $PING_TEST == "ERROR" ]];
+	then
+	echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+	echo -e "${V_yellow}1${NC}) Continuar con la busqueda del servidor ${V_red}$V_server${NC} en el inventario"
+	echo -e "${V_yellow}2${NC}) Volver al menu principal"
+	read aux
+
+	clear
+
+		while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+		do
+			echo "valor incorrecto ingrese la opción correcta"
+			read aux
+		done
+		
+		if [[  $aux == "1" ]]
+		then
+
+			STATUS="Offline"
+			OS="##########"
+			RELEASE="##########"
+		else 
+		menu;
+		fi
+
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+	echo ""
+	echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+	read aux
+
+	while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+	do
+	echo "Valor incorrecto ingrese la opción correcta:"
+	read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+	menu;
+	done
+	fi
+
+
+if [[ $SSH_TEST == "ERROR" ]];
+then
+
+
+OS=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $1}'|tr -d "\015"`
+RELEASE=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $2}'|tr -d "\015"`
+	
+	if [[  $OS == "Linux" ]];
+	then
+	RELEASE=`sudo /home/ibmunx/JOEL/PRUEBA/trunc_release_linux.sh $V_server|tr -d "\015"`
+	fi
+
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+echo""
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+menu;
+done
+
+fi
+
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+echo ""
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+menu;
+done
+
+
+}
+
+
+
+#######################################
+# Funcion update inventario            #
+########################################
+F_update_s(){
+clear
+
+V_servidor=Servidor
+V_consola=Consola
+V_ip_prod=IP_Prod
+V_ubicacion=Ubicacion
+V_serial_id=Num_serie
+echo "Ingrese servidor:"
+read V_server
+
+V_serv=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` 
+V_con=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $2}'`
+V_ip=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $3}'` 
+V_ubi=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $4}'`
+V_serial=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $5}'`
+V_os="Sist_ope"
+V_re="Release"
+V_status="Status"
+STATUS="Online"
+ssh_test;
+ping_test;
+test_os;
+clear
+
+if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+   			then
+			echo -e "El servidor ${V_red}$V_server${NC} no se encuentra en el inventario."
+			echo -e "¿Desea agregar al servidor ${V_red}$V_server${NC} al inventario?"
+			echo -e "${V_yellow}1${NC}) Si"
+			echo -e "${V_yellow}2${NC}) No"
+			read aux
+
+		while [ $aux -lt 1 ] || [ $aux -gt 2 ] || [ $aux == ""]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+				if [ $aux -eq 1 ] ; then
+				F_add_s;	
+				else
+				menu
+				fi
+fi
+
+if [[  $PING_TEST == "ERROR" ]];
+	then
+	echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+	echo -e "${V_yellow}1${NC}) Continuar con la actualizacion de campos en el inventario del servidor ${V_red}$V_server${NC}."
+	echo -e "${V_yellow}2${NC}) Volver al menu principal"
+	read aux
+
+	clear
+
+		while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+		do
+			echo "valor incorrecto ingrese la opción correcta"
+			read aux
+		done
+		
+		if [[  $aux == "1" ]]
+		then
+
+			STATUS="Offline"
+			OS="##########"
+			RELEASE="##########"
+		else 
+		menu;
+		fi
+fi
+if [[ $SSH_TEST == "ERROR" ]];
+then
+
+
+OS=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $1}'|tr -d "\015"`
+RELEASE=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $2}'|tr -d "\015"`
+	
+	if [[  $OS == "Linux" ]];
+	then
+	RELEASE=`sudo /home/ibmunx/JOEL/PRUEBA/trunc_release_linux.sh $V_server|tr -d "\015"`
+	fi
+fi
+
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+echo ""
+echo -e "${V_cyan}¿Que campo desea modificar?${NC}"
+echo -e "${V_yelow}1${NC}) Servidor."
+echo -e "${V_yelow}2${NC}) Consola."
+echo -e "${V_yelow}3${NC}) Ip."
+echo -e "${V_yelow}4${NC}) Ubicacion."
+echo -e "${V_yelow}5${NC}) Serial Number."
+echo -e "${V_yelow}6${NC}) Volver al menu anterior."
+
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 6 ]
+do
+echo "valor incorrecto ingrese la opción correcta"
+read aux
+done
+
+
+while [[  $aux == "1" ]]
+do
+clear
+echo "Ingrese nuevo valor para el campo Servidor:"
+read V_new
+sudo sed -i "s/${V_serv}/${V_new}/i" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+V_serv=$V_new
+clear
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+echo ""
+
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+F_inventario;
+done
+
+done
+
+while [[  $aux == "2" ]]
+do
+clear
+echo "Ingrese nuevo valor para el campo Consola:"
+read V_new
+sudo sed -i "s/${V_con}/${V_new}/i" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+V_con=$V_new
+clear
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+echo ""
+
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+F_inventario;
+done
+
+done
+
+while [[  $aux == "3" ]]
+do
+clear
+echo "Ingrese nuevo valor para el campo IP:"
+read V_new
+sudo sed -i "s/${V_ip}/${V_new}/i" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+V_ip=$V_new
+clear
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+echo ""
+
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+F_inventario;
+done
+
+done
+
+while [[  $aux == "4" ]]
+do
+clear
+echo "Ingrese nuevo valor para el campo ubicacion:"
+read V_new
+sudo sed -i "s/${V_ubi}/${V_new}/i" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+V_ubi=$V_new
+clear
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+echo ""
+
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+F_inventario;
+done
+
+done
+
+while [[  $aux == "5" ]]
+do
+clear
+echo "Ingrese nuevo Numero de serie"
+read V_new
+sudo sed -i "s/${V_serial}/${V_new}/i" /home/ibmunx/JOEL/PRUEBA/consolas.txt
+V_serial=$V_new
+clear
+	sudo touch /home/ibmunx/JOEL/temp.txt
+	echo "$V_servidor  |$V_consola  |$V_ip_prod  |$V_ubicacion  |$V_serial_id  |$V_os  |$V_re  |$V_status" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	echo "$V_serv  |$V_con  |$V_ip  |$V_ubi  |$V_serial  |$OS  |$RELEASE  |$STATUS" | sudo tee --append /home/ibmunx/JOEL/temp.txt
+	clear
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	echo "`sudo cat /home/ibmunx/JOEL/temp.txt`"|column -t -s "|"
+	echo -e "${V_cyan}######################################################################################################################################${NC}"
+	sudo rm -f /home/ibmunx/JOEL/temp.txt
+
+echo -e "${V_yelow}1${NC}) Volver al menu anterior."
+read aux
+
+while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+do
+echo "Valor incorrecto ingrese la opción correcta:"
+read aux
+done
+
+while [[  $aux == "1" ]]
+do
+F_inventario;
+done
+
+done
+
+
+}
+
+########################################
+#Funcion auditoria Oracle              #
+########################################
+F_ora_audit_report(){
+clear
+
+echo "Ingrese servidor en el cual se va a correr el Reporte de auditoria de Oracle"
+read V_server
+ssh_test;
+ping_test;
+clear
+if [[  $PING_TEST == "ERROR" ]];
+then
+	echo -e "${V_cyan}El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping, favor de verificar si el servidor es correcto o si el mismo tiene algun inconveniente.${NC}"
+	echo -e "${V_yellow}1${NC}) Volver al menu principal"
+	read aux
+
+	clear
+
+	while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+	do
+		echo "valor incorrecto ingrese la opción correcta"
+		read aux
+	done
+
+	while [[  $aux == "1" ]]
+	do
+		menu;
+	done
+	
+fi
+
+	if [[  $SSH_TEST == "ERROR" ]];
+		then
+		echo -e "${V_red}PROGRESO DE LA EJECUCION DEL SCRIPT DE AUDITORIA:${NC}:"
+		${SSH} ibmunx@apsatellitep03  "sudo  /home/ibmunx/JOEL/barra.sh $V_server "
+		clear
+		echo ""
+		echo -e "Se dejo el reporte en el serivdor  ${V_cyan}dbcrinf01${NC} en el directorio ${V_cyan}/archives/Oracle/TGT${NC}:"
+		echo ""
+		
+		echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+			clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+
+	fi
+
+		test_os;
+
+		sudo nohup /home/ibmunx/JOEL/PRUEBA/collect_audit_oracleRE.sh $V_server </dev/null &>/dev/null & 
+		clear
+		 echo -e "${V_red}PROGRESO DE LA EJECUCION DEL SCRIPT DE AUDITORIA:${NC}:"
+		F_barra_de_carga;
+			echo ""
+			echo -e "Se dejo el reporte en el serivdor  ${V_cyan}dbcrinf01${NC} en el directorio ${V_cyan}/archives/Oracle/TGT${NC}:"
+			echo ""
+			echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+			clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+
+}
+
+
+F_barra_de_carga(){
+#Setear el valor de la variable aux antes de llamar a la funcion.
+#Esta funcion esta pensada para la espera de ejucucion de un proceso.
+#se recomienda usar un ps para  ver si el script todavia esta corriendo
+#Ejemplo:
+#aux=`ps -ef | grep -v grep | grep collect_audit_oracleRE.sh`
+END=0
+porcentaje=0
+while [ $END -eq 0 ]
+do
+if [[ `ps -ef | grep -v grep | grep collect_audit_oracleRE.sh` == "" ]];
+   then
+    porcentaje=100
+    echo -ne '[ ################################################## (100%) ]\r'
+    END=1
+  
+
+ else
+    porcentaje=${porcentaje}+1
+	if [[ "$porcentaje" -lt 10 ]]; then
+ 		echo -ne '[ # (1%) ]\r'    
+       		porcentaje=$((porcentaje+1))
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 10 && "${porcentaje}" -lt 20 ]]; then
+  		echo -ne '[ ### (20%) ]\r'    
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 20 && "${porcentaje}" -lt 30 ]]; then
+  		echo -ne '[ ###### (30%) ]\r'
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 30 && "${porcentaje}" -lt 40 ]]; then
+  		echo -ne '[ ########## (40% ]\r'
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 40 && "${porcentaje}" -lt 50 ]]; then
+  		echo -ne '[ ################ (50%) ]\r'    
+ 		porcentaje=$((porcentaje+1)) 
+		sleep 1
+    	elif [[ "$porcentaje" -gt 50 && "${porcentaje}" -lt 60 ]]; then
+  		echo -ne '[ ######################## (60%) ]\r' 
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 60 && "${porcentaje}" -lt 70 ]]; then
+  		echo -ne '[ ################################## (70%) ]\r' 
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 70 && "${porcentaje}" -lt 80 ]]; then
+  		echo -ne '[ ######################################## (80%) ]\r'
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	elif [[ "$porcentaje" -gt 80 && "${porcentaje}" -lt 90 ]]; then
+  		echo -ne '[ ########################################### (90%) ]\r'
+		porcentaje=$((porcentaje+1)) 
+ 		sleep 1
+    	else [[ "$porcentaje" -gt 90 && "${porcentaje}" -lt 99 ]];
+  		echo -ne '[ ################################################ (99%) ]\r'    
+ 		sleep 1
+		porcentaje=$((porcentaje+1)) 
+
+fi
+fi
+
+
+done
+}
+
+
+ssh_test(){
+SSH_TEST=`$SSH ibmunx@$V_server "uname >/dev/null" >/dev/null 2>&1&& echo "OK" ||echo "ERROR"`
+}
+
+ping_test(){
+PING_TEST=`ping -c1 $V_server >/dev/null 2>&1 && echo "OK" ||echo "ERROR"`
+}
+
+test_os() {
+OS=`$SSH ibmunx@$V_server "uname 2>/dev/null"|tr -d "\015"`
+if [ "$OS" == "Linux" ]
+ then
+  RELEASE=`$SSH ibmunx@$V_server "cat /etc/redhat-release 2>/dev/null"|tr -d "\015"| tr ' ' '_'| sed  "s/_Enterprise_Linux_Server_release_/_/g"`
+ else
+  if [ "$OS" == "AIX" ]
+   then
+    RELEASE=`$SSH ibmunx@$V_server "oslevel -s 2>/dev/null"|tr -d "\015"`
+   else
+    RELEASE=`$SSH ibmunx@$V_server "uname -r 2>/dev/null"|tr -d "\015"`
+   fi
+fi
+}
+
+
+F_gen_caso(){
+clear
+echo "Ingrese servidor en por el cual va abrir un caso en roer:"
+read V_server
+V_serv=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` 
+V_con=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $2}'`
+V_ip=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $3}'` 
+V_ubi=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $4}'`
+V_serial=`cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $5}'`
+V_os="Sist_ope"
+V_re="Release"
+V_status="Status"
+ssh_test;
+ping_test;
+clear
+
+
+
+if [[  $PING_TEST == "ERROR" ]];
+then
+		echo -e "${V_cyan}INFO: El servidor${NC} ${V_red}$V_server${NC}${V_cyan} no responde ping.${NC}"
+		echo -e "${V_yellow}1${NC}) Continuar con la generacion del caso para el servidor ${V_red}$V_server${NC}."
+		echo -e "${V_yellow}2${NC}) Volver al menu principal"
+		read aux
+
+
+	clear
+
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+		echo "valor incorrecto ingrese la opción correcta"
+		read aux
+	done
+
+
+	while [[  $aux == "1" ]]
+	do
+			STATUS="Offline"
+			if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+   			then
+			echo -e "El servidor ${V_red}$V_server${NC} no se encuentra en el inventario."
+			echo -e "¿Desea agregar al servidor ${V_red}$V_server${NC} al inventario?"
+			echo -e "${V_yellow}1${NC}) Si"
+			echo -e "${V_yellow}2${NC}) No"
+			read aux
+				if [ $aux -eq 1 ] ; then
+				F_add_s;	
+				else
+				menu
+
+				fi
+			fi
+	done
+
+
+
+	while [[  $aux == "2" ]]
+	do
+		menu;
+	done
+	
+fi
+
+
+if [[  $SSH_TEST == "ERROR" ]];
+then
+
+		if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+   			then
+			echo -e "El servidor ${V_red}$V_server${NC} no se encuentra en el inventario."
+			echo -e "¿Desea agregar al servidor ${V_red}$V_server${NC} al inventario?"
+			echo -e "${V_yellow}1${NC}) Si"
+			echo -e "${V_yellow}2${NC}) No"
+			read aux
+				if [ $aux -eq 1 ] ; then
+				F_add_s;	
+				else
+				menu
+
+				fi
+		fi
+
+OS=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $1}' `
+RELEASE=`$SSH ibmunx@apsatellitep03 "sudo /home/ibmunx/JOEL/test_os.sh $V_server"|awk '{print $2}' `
+
+	echo "Ingrese la problematica del caso:"
+	read PROBLEM
+		if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt | grep -wi $V_server | awk '{print $4}' | grep -i vel` == "" ]];
+		then
+		V_dir="Luis Viale 1957, C.A.B.A."
+		else
+		V_dir="Cruz del Sud 2943, C.A.B.A."
+		fi
+
+echo -e "Se solicita la apertura de un caso de hardware de severidad 1. \nSe detallan los datos del equipo: \n\nProblemática: \n$PROBLEM \n\nDatos del servidor: \nHostname: $V_serv \nSerial number: $V_serial \n\nUbicacion fisica del equipo: \n$V_dir \n$V_ubi \n\nDatos de contacto: \nMail: \nTLF-UNX@kyndryl.com \nTelefono: \n+54-911-5286-1180 \n\nDesde ya muchas gracias, saludos. \n\n\nKYNDRYL UNIX TEAM \nCIC Argentina, Global Technology Services \nPHONE: +54-911-5286-1180 \nE-mail: TLF-UNX@kyndryl.com " |mail -s "Generacion de caso de severidad 1" jo.asd.xd@gmail.com
+
+		echo "se evio el mail a Roer"
+		echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+		clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+
+fi
+
+if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt  | grep -wi $V_server | awk '{print $1}'` == "" ]]
+   			then
+			echo -e "El servidor ${V_red}$V_server${NC} no se encuentra en el inventario."
+			echo -e "¿Desea agregar al servidor ${V_red}$V_server${NC} al inventario?"
+			echo -e "${V_yellow}1${NC}) Si"
+			echo -e "${V_yellow}2${NC}) No"
+			read aux
+				if [ $aux -eq 1 ] ; then
+				F_add_s;	
+				else
+				menu
+
+				fi
+fi
+
+	echo "Ingrese la problematica del caso:"
+	read PROBLEM
+		if [[ `cat /home/ibmunx/JOEL/PRUEBA/consolas.txt | grep -wi $V_server | awk '{print $4}' | grep -i vel` == "" ]];
+		then
+		V_dir="Luis Viale 1957, C.A.B.A."
+		else
+		V_dir="Cruz del Sud 2943, C.A.B.A."
+		fi
+
+echo -e "Se solicita la apertura de un caso de hardware de severidad 1. \nSe detallan los datos del equipo: \n\nProblemática: \n$PROBLEM \n\nDatos del servidor: \nHostname: $V_serv \nSerial number: $V_serial \n\nUbicacion fisica del equipo: \n$V_dir \n$V_ubi \n\nDatos de contacto: \nMail: \nTLF-UNX@kyndryl.com \nTelefono: \n+54-911-5286-1180 \n\nDesde ya muchas gracias, saludos. \n\n\nKYNDRYL UNIX TEAM \nCIC Argentina, Global Technology Services \nPHONE: +54-911-5286-1180 \nE-mail: TLF-UNX@kyndryl.com "|mail -s "Generacion de caso de severidad 1" jo.asd.xd@gmail.com
+
+
+		echo "se evio el mail a Roer"
+		echo -e "${V_yellow}1${NC}) Volver al menu principal:"
+			read aux
+
+		clear
+	
+		while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+		do
+			echo "Valor incorrecto ingrese la opción correcta:"
+			read aux
+		done
+		while [[  $aux == "1" ]]
+		do
+			menu
+		done
+
+}
+
+
+
+######################################
+# Funcion configurar multipath alies #
+######################################
+F_conf_multipath_alies(){
+i=
+clear
+echo -e "${V_cyan}################################################################################${NC}"
+echo -e "${V_cyan}# Configurar multipath alies.                                                  #${NC}"
+echo -e "${V_cyan}################################################################################${NC}"
+echo ""
+echo "Ingrese servidor:"
+read V_server
+clear
+
+V_bkp=`${SSH} ibmunx@$V_server "sudo ls '/etc/multipath.conf.bkp-${dia}-${mes}-${anio}'"`
+if [[ $V_bkp == "/etc/multipath.conf.bkp-${dia}-${mes}-${anio}" ]]; then
+echo "Ya hay un Bkp del dia de hoy del archivo"
+else
+${SSH} ibmunx@$V_server cp /etc/multipath.conf /etc/multipath.conf.bkp-${dia}-${mes}-${anio}
+echo "Se realizo una copia de seguridad del archivo."
+fi
+
+case $V_server in
+"ct3racp101") F_server_case ;;
+"ct3racp102") F_server_case ;;
+"ct3racp103") F_server_case ;;
+"ct3racp104") F_server_case ;;
+"ct3racp105") F_server_case ;;
+"ct3racp106") F_server_case ;;
+"ct3racp107") F_server_case ;;
+"ct3racp108") F_server_case ;;
+"ct3racp111") F_server_case ;;
+"ct3racp112") F_server_case ;;
+"ct3racp201") F_server_case ;;
+"ct3racp202") F_server_case ;;
+"ct3racp203") F_server_case ;;
+"ct3racp204") F_server_case ;;
+"ct3racp205") F_server_case ;;
+"ct3racp206") F_server_case ;;
+"ct3racp207b") F_server_case ;;
+"ct3racp208") F_server_case ;;
+"ct3racp209") F_server_case ;;
+"ct3racp110") F_server_case ;;
+"ct3racp111") F_server_case ;;
+"ct3racp112") F_server_case ;;
+esac
+done
+	
+
+echo -e "${V_cyan}################################################################################${NC}"
+echo -e "${V_cyan}Esta funcion solo es valida para los siguientes servidores:                     ${NC}"
+echo -e  "${V_red}ct3racp101 ct3racp102 ct3racp103 ct3racp104 ct3racp105 ct3racp106 ct3racp107    ${NC}" 
+echo -e  "${V_red}ct3racp108 ct3racp111 ct3racp112 ct3racp201 ct3racp202 ct3racp203 ct3racp203    ${NC}" 
+echo -e  "${V_red}ct3racp204 ct3racp205 ct3racp206 ct3racp207b ct3racp208 ct3racp209 ct3racp210   ${NC}"  
+echo -e  "${V_red}ct3racp211 ct3racp212                                                           ${NC}"
+echo -e "${V_cyan}################################################################################${NC}"
+echo ""			
+echo "1) Volver al menu principal:"
+read aux
+
+				
+					while [ $aux -lt 1 ] || [ $aux -gt 1 ]
+					do
+					echo "valor incorrecto ingrese la opción correcta"
+					read aux
+					done
+
+					while [[  $aux == "1" ]]
+					do
+					menu;
+					done				
+
+
+
+}
+
+######################################
+# Funcion lectura de alias           #
+######################################
+F_lec_multipath_alies(){
+clear
+echo "ingrese alias" 
+read v_alias
+while [[ $v_alias == `${SSH} ibmunx@$V_server "sudo cat /etc/multipath.conf | grep -wi $v_alias | awk '{print $2}'"` ]]
+do
+echo "############################################"
+echo "El alias ingresado ya se encuentra en el archivo /etc/multipath.conf"
+echo "Por favor ingrese otro."
+echo "ingrese alias:" 
+read v_alias
+done
+}
+
+
+######################################
+# Funcion lectura de lun_id          #
+######################################
+F_lec_multipath_lun_id(){
+echo -e "${V_red}-----------------------------------------------------------------------------------------------${NC}"
+echo -e "${V_red}|IMPORTANTE: Storage manda los luns_id sin el 3 adelante y todos los caracteres en mayuscula. |${NC}"
+echo -e "${V_red}|Pegarlas tal cual las pasa storage que este script le agrega el 3 faltande y las             |${NC}" 
+echo -e "${V_red}|pasa a minuscula.                                                                            |${NC}"
+echo -e "${V_red}|Ejemplo:                                                                                     |${NC}" 
+echo -e "${V_red}|Como los manda storage 60002AC0000000000600466B0001DCA4.                                     |${NC}"
+echo -e "${V_red}|Como deberian ir en el archivo 360002ac0000000000600466b0001dca4.                            |${NC}" 
+echo -e "${V_red}|Tambien se puede poner el lunid con el 3 incluido. En este caso independientemente de que el |${NC}" 
+echo -e "${V_red}|lun ID este en mayuscula o minuscula se pasa a minuscula                                     |${NC}" 
+echo -e "${V_red}-----------------------------------------------------------------------------------------------${NC}"
+echo""
+echo "ingrese lun_id" 
+read v_lun_id
+
+if  [[ `echo $v_lun_id| cut -b1` != "3" ]]
+then
+v_lun_id=`echo "3$v_lun_id" | tr '[:upper:]' '[:lower:]'` 
+echo "$v_lun_id"
+else
+v_lun_id=`echo "$v_lun_id" | tr '[:upper:]' '[:lower:]'` 
+echo "$v_lun_id"
+fi
+
+while [[ $v_lun_id == `${SSH} ibmunx@$V_server "sudo cat /etc/multipath.conf | grep -wi $v_lun_id "| awk '{print $2}'` ]]
+do
+echo -e "${V_red}############################################${NC}"
+echo "El lun_id ingresado ya se encuentra en el archivo /etm/multipath.conf"
+echo "Por favor ingrese otro."
+echo "ingrese lun_id" 
+read v_lun_id
+done
+}
+
+
+######################################
+# Funcion agregar de lun_id          #
+######################################
+F_add_multipath_lun_id(){
+${SSH} ibmunx@$V_server "sudo sed -i '/multipaths/a multipath { \n 	alias  ${v_alias}\n	wwid   ${v_lun_id}\n}' /etc/multipath.conf"
+}
+F_server_case(){
+	echo "1) Agregar lun_id con alias al Archivo /etc/multipath.conf"
+	echo "2) Volver al menu principal"
+	read aux
+
+	while [ $aux -lt 1 ] || [ $aux -gt 2 ]
+	do
+		echo "valor incorrecto ingrese la opción correcta"
+		read aux
+	done
+
+	echo "$aux"
+
+	while [[  $aux == "1" ]] || [[  $aux == "2" ]]
+	do
+		if [ $aux -eq 1 ] ; then
+			V_bkp=`${SSH} ibmunx@$V_server "sudo ls '/etc/multipath.conf.bkp-${dia}-${mes}-${anio}'"`
+			if [[ $V_bkp == "" ]]; then
+				V_bkp=`${SSH} ibmunx@$V_server "cp /etc/multipath.conf '/etc/multipath.conf.bkp-${dia}-${mes}-${anio}'"`
+			fi	
+
+
+		F_lec_multipath_alies
+		F_lec_multipath_lun_id
+		F_add_multipath_lun_id
+
+
+		else
+		menu
+
+		fi
+	echo""
+	echo -e "${V_yellow}1${NC}) Agregar otro lun_id con diferente alias"
+	echo -e "${V_yellow}2${NC}) Volver al menu principal"
+	read aux
+	done
+}
+
+menu;
+
+
