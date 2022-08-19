@@ -1,3 +1,0 @@
-ORACLEPRODUCT=CPUQ
-
-RUNCMD=../resources/util/CPUQ/cpuq_main|SCRIPT
